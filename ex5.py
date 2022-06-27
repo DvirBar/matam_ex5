@@ -1,9 +1,5 @@
-from distutils.command.sdist import sdist
-from distutils.errors import DistutilsFileError
 import json
 import os
-
-from attr import asdict
 
 
 #################################################### Definitions ###################################################

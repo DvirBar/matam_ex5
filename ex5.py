@@ -16,14 +16,14 @@ registered_courses_key = "registered_courses"
 student_name_key = "student_name"
 
 course_name_key = "course_name"
+lecturers_names_key = "lecturers"
 
 
 ################################################# Helper Functions #################################################
 
 
 def get_json_files(input_json_path):
-    with open(input_json_path, 'r') as f:
-        json_list = [json_file for json_file in os.listdir(input_json_path) if json_file.endswith('.json')]
+    json_list = [json_file for json_file in os.listdir(input_json_path) if json_file.endswith('.json')]
     return json_list
 
 
@@ -48,10 +48,10 @@ def get_technion_courses(students_courses_json):
 
 def build_lecturer_dict(semester_dict, output_dict):
     for course in semester_dict.values():
-        for lecturer in course['lecturers']:
+        for lecturer in course[lecturers_names_key]:
             if lecturer not in output_dict:
                 output_dict[lecturer] = [course[course_name_key]]
-            else:
+            elif course[course_name_key] not in output_dict[lecturer]:
                 output_dict[lecturer].append(course[course_name_key])
 
 

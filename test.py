@@ -44,28 +44,28 @@ class Test(unittest.TestCase):
                                               the fucntion - enrollment_number     \
                                               doesn't match the expected one.")
 
-    # def test3(self):
+    def test3(self):
 
-    #     """
-    #     this test for the third function - courses_for_lecturers.
-    #     """
-    #     expected_output_file = "expected_output_test3_courses_for_lecturers.json"
-    #     courses_for_lecturers(database_directory_path,"test3_output.json")
+        """
+        this test for the third function - courses_for_lecturers.
+        """
+        expected_output_file = "expected_output_test3_courses_for_lecturers.json"
+        courses_for_lecturers(database_directory_path,"test3_output.json")
 
-    #     with open("test3_output.json") as file_to_test:
-    #         data_to_test = json.load(file_to_test)
+        with open("test3_output.json") as file_to_test:
+            data_to_test = json.load(file_to_test)
 
-    #     with open(expected_output_file) as expected_file:
-    #         expected_data = json.load(expected_file)
+        with open(expected_output_file) as expected_file:
+            expected_data = json.load(expected_file)
 
-    #     for h in data_to_test:
-    #         data_to_test[h].sort()
+        for h in data_to_test:
+            data_to_test[h].sort()
 
-    #     for h in expected_data:
-    #         expected_data[h].sort()
+        for h in expected_data:
+            expected_data[h].sort()
 
-    #     self.assertDictEqual(data_to_test ,expected_data, "Error: the content of the file created by   \
-    #                                                        the fucntion - courses_for_lecturers        \
-    #                                                        doesn't match the expected one.")
+        self.assertDictEqual(data_to_test ,expected_data, "Error: the content of the file created by   \
+                                                           the fucntion - courses_for_lecturers        \
+                                                           doesn't match the expected one.")
 if __name__ == '__main__':
     unittest.main()

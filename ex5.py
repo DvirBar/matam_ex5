@@ -1,11 +1,30 @@
+from distutils.command.sdist import sdist
+from distutils.errors import DistutilsFileError
 import json
 import os
+
+from attr import asdict
+
+
+#################################################### Definitions ###################################################
+
 
 input_json_path = "students_database.json"
 database_directory_path = "semesters_databases"
 
 registered_courses_key = "registered_courses"
 student_name_key = "student_name"
+
+course_name_key = "course_name"
+
+
+################################################# Helper Functions #################################################
+
+
+def get_json_files(input_json_path):
+    with open(input_json_path, 'r') as f:
+        json_list = [json_file for json_file in os.listdir(input_json_path) if json_file.endswith('.json')]
+    return json_list
 
 
 def get_students_courses_dict(input_json_path):
@@ -25,6 +44,18 @@ def get_technion_courses(students_courses_json):
                 courses.append(course_name)
 
     return courses
+
+
+def build_lecturer_dict(semester_dict, output_dict):
+    for course in semester_dict.values():
+        for lecturer in course['lecturers']:
+            if lecturer not in output_dict:
+                output_dict[lecturer] = [course[course_name_key]]
+            else:
+                output_dict[lecturer].append(course[course_name_key])
+
+
+################################################# Actual EX5 Functions #################################################
 
 
 def names_of_registered_students(input_json_path, course_name):
@@ -53,10 +84,13 @@ def enrollment_numbers(input_json_path, output_file_path):
 
 
 def courses_for_lecturers(json_directory_path, output_json_path):
-    """
-    This function writes the courses given by each lecturer in json format.
+    lecturer_course_dict = {}
+    json_files_list = get_json_files(json_directory_path)
 
-    :param json_directory_path: Path of the semsters_data files.
-    :param output_json_path: Path of the output json file.
-    """
-    pass
+    for json_file in json_files_list:
+        json_file_path = os.path.join(json_directory_path, json_file)
+        with open(json_file_path, 'r') as course_json:
+            build_lecturer_dict(json.load(course_json), lecturer_course_dict)
+
+    with open(output_json_path, 'w') as output_lecturer_dict_json:
+        json.dump(lecturer_course_dict, output_lecturer_dict_json, indent = 4)
